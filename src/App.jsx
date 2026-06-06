@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-
+console.log(import.meta.env.VITE_API_URL);
 const EXAMPLES = ["brittanychiang.com", "jacekjeznach.com", "caferati.me"];
 
 const features = [
@@ -51,7 +51,7 @@ export default function App() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/analyze", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/analyze`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,9 +59,10 @@ export default function App() {
         body: JSON.stringify({ url }),
       });
 
-      const data = await response.json();
+      const responseText = await response.text();
 
-      console.log(data);
+
+      const data = JSON.parse(responseText);
 
       setReview(data);
     } catch (error) {
